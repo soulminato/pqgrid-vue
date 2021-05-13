@@ -46,6 +46,10 @@ export default {
             type: String,
             default: 'local'
         },
+        listenerFilter:{
+            type: String,
+            default: 'timeout'
+        }
     },
     beforeCreate() {
     },
@@ -96,6 +100,9 @@ export default {
             //Permite configurar la fuente de datos
             this.configureDataSource();
 
+            //Permite configurar opciones de rehacer y deshacer en el toolbar
+            this.configureHistory();
+
             // Permite configurar un campo de busqueda general en el toolbar
             this.configureFilterToolbar();
 
@@ -113,6 +120,8 @@ export default {
 
             //Permite configurar el ContextMenu en las celdas de la tabla
             this.configureContextMenu();
+
+
 
             if (this.formulas !== null) {
                 this.dOptions.formulas = this.formulas;

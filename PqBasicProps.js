@@ -169,5 +169,16 @@ export default {
     formulas: {
         type: Array,
         default: null
+    },
+    history: {
+        type: Boolean,
+        default: false
+    },
+    // Propiedad que permite excluir alguna columna del filtro "general"
+    // Esto solo es aplicable cuando se configura un filtro general en el Toolbar
+    // Debe estar habilitado la propiedad filter y la propiedad filter-location="toolbar"
+    columnsFilterDisable: {
+        type: Array,
+        default: null
     }
 };

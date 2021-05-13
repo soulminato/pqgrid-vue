@@ -47,6 +47,10 @@ export default {
             type: String,
             default: 'remote'
         },
+        listenerFilter: {
+            type: String,
+            default: 'change'
+        },
     },
     beforeCreate() {
     },
@@ -97,6 +101,9 @@ export default {
             //Se configura los campos de busqueda en los headers de cada columna
             this.configureFilter();
 
+            //Permite configurar opciones de rehacer y deshacer en el toolbar
+            this.configureHistory();
+
             //Configura un campo de busqueda en el toolbar en caso de que la propiedad
             // filter-location sea igual a "toolbar"
             this.configureFilterToolbar();
@@ -106,6 +113,7 @@ export default {
 
             // Se configura la paginación de la tabla
             this.configurePagination();
+
 
         },
         ...allFunctionPqgrid

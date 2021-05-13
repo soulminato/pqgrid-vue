@@ -29,13 +29,19 @@ const configureFilterToolbar = function () {
             mode: 'OR',
             type: this.filterType
         };
-        this.dOptions.toolbar.items.push({
+
+        let listenerOption = {
             type: 'textbox',
             label: 'Buscar: ',
             attr: 'placeholder="Ingresa algun texto....."',
             cls: "filterValue",
-            listener: {timeout: this.filterHandler}
-        });
+            listener: {}
+        };
+
+        listenerOption.listener[this.listenerFilter] = this.filterHandler;
+
+
+        this.dOptions.toolbar.items.push(listenerOption);
 
         this.dOptions.columnTemplate = {render: this.filterRender};
 
@@ -68,9 +74,22 @@ const filterHandler = function () {
     var $toolbar = this.getGrid().toolbar(),
         $value = $toolbar.find(".filterValue"),
         value = $value.val(),
-        filterRules;
-    filterRules = this.getGrid().getColModel().map(function (column) {
-        return {dataIndx: column.dataIndx, condition: 'contain', value: value};
+        columnas = this.getGrid().getColModel(),
+        filterRules = [];
+
+    columnas.forEach(column =>{
+        // Opcion 1
+        // Permite excluir del filtro las columnas que son configuradas en la propiedad columns-filter-disable
+        // if ((this.columnsFilterDisable !== null && this.columnsFilterDisable.indexOf(column.dataIndx) == -1) || this.columnsFilterDisable === null) {
+        //     filterRules.push({dataIndx: column.dataIndx, condition: 'contain', value: value});
+        // }
+
+        // Opcion 2
+        // Permite excluir del filtro las columnas que son configuradas en filter false en el array de columnas
+        if (column.filter !== false) {
+            filterRules.push({dataIndx: column.dataIndx, condition: 'contain', value: value});
+        }
+
     });
 
     this.getGrid().filter({
@@ -119,6 +138,48 @@ const filterRender = function (ui) {
     }
 };
 
+const configureHistory = function(){
+
+    if(this.history)
+    {
+        this.dOptions.history = function (evt, ui) {
+            var $tb = this.toolbar(),
+                $undo = $tb.find("button.undo"),
+                $redo = $tb.find("button.redo");
+
+            if (ui.canUndo != null) {
+                $undo.button("option", { disabled: !ui.canUndo });
+            }
+            if (ui.canRedo != null) {
+                $redo.button("option", "disabled", !ui.canRedo);
+            }
+            $undo.button("option", { label: 'Deshacer (' + ui.num_undo + ')' });
+            $redo.button("option", { label: 'Rehacer (' + ui.num_redo + ')' });
+        };
+
+        this.dOptions.toolbar.items.push({
+            type: 'button',
+            cls: 'undo',
+            icon: 'ui-icon-arrowreturn-1-s',
+            label: 'Deshacer',
+            options: { disabled: true },
+            listener: function () {
+                this.history({ method: 'undo' });
+            }
+        });
+        this.dOptions.toolbar.items.push({
+            type: 'button',
+            cls: 'redo',
+            icon: 'ui-icon-arrowrefresh-1-s',
+            label: 'Rehacer',
+            options: { disabled: true },
+            listener: function () {
+                this.history({ method: 'redo' });
+            }
+        });
+    }
+}
+
 const getData = function () {
     return this.pqGrid.option('dataModel.data');
 };
@@ -135,7 +196,7 @@ const deleteRow = function (idx) {
     this.pqGrid.deleteRow({rowIndx: idx});
 };
 
-export default  {
+export default {
     filterRender,
     filterHandler,
     configurePagination,
@@ -143,6 +204,7 @@ export default  {
     configureFilter,
     configureFilterToolbar,
     configureContextMenu,
+    configureHistory,
     getData,
     getGrid,
     updateRemoteData,
@@ -157,6 +219,7 @@ export {
     configureFilter,
     configureFilterToolbar,
     configureContextMenu,
+    configureHistory,
     getData,
     getGrid,
     updateRemoteData,
