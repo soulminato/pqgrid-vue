@@ -9,11 +9,11 @@ import 'jquery-ui-pack/jquery-ui.structure.css';
 import 'jquery-ui-pack/jquery-ui.theme.css';
 import 'pqgrid/pqgrid.min.css'; // ParamQuery Grid css files
 import 'pqgrid/pqgrid.ui.min.css'; // add pqgrid.ui.css for jQueryUI theme support
-// import 'pqgrid/themes/bootstrap/pqgrid.css';
-import 'pqgrid/themes/steelblue/pqgrid.css';
+import 'pqgrid/themes/bootstrap/pqgrid.css';
+// import 'pqgrid/themes/steelblue/pqgrid.css';
 import pq from 'pqgrid';
 import 'pqgrid/localize/pq-localize-es';
-import pqOptions from './PqBasicProps';
+import pqOptions from './config/PqBasicProps';
 import allFunctionPqgrid from './config/functions';
 import configurationGeneral from './config/generalOptionsPQgrid';
 

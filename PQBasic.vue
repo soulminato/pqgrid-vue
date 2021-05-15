@@ -12,7 +12,7 @@ import 'pqgrid/themes/bootstrap/pqgrid.css';
 // import 'pqgrid/themes/steelblue/pqgrid.css';
 import pq from 'pqgrid';
 import 'pqgrid/localize/pq-localize-es';
-import pqOptions from './PqBasicProps';
+import pqOptions from './config/PqBasicProps';
 import allFunctionPqgrid from './config/functions';
 import configurationGeneral from './config/generalOptionsPQgrid';
 
@@ -120,7 +120,6 @@ export default {
 
             //Permite configurar el ContextMenu en las celdas de la tabla
             this.configureContextMenu();
-
 
 
             if (this.formulas !== null) {
