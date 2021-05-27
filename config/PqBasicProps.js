@@ -48,7 +48,7 @@ export default {
     },
     heightTable: {
         type: String,
-        default: 360
+        default: "360"
     },
     width: {
         type: String,
